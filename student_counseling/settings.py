@@ -86,6 +86,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'adityasuyal0001@gmail.com'  # Replace with your email
 EMAIL_HOST_PASSWORD = 'drcb mjtt baer puzd'  # Replace with your email password
 
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 AUTH_USER_MODEL = 'counseling_app.AdminUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

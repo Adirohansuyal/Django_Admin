@@ -24,6 +24,7 @@
                     <div class="mb-3">
                         <label for="id_password" class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" id="id_password" required>
+                        <small class="text-muted"><a href="{% url 'account_reset_password' %}">Forgot Password?</a></small>
                     </div>
                     {% if form.errors %}
                         <div class="alert alert-danger">
