@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Counseling App{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'personal_info' %}">
+                            Personal Info
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'marks_entry' %}">
+                            Marks Entry
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generate_offer_letter' %}">
+                            Generate Offer Letter
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_logout' %}">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Welcome, {{ request.user.username }}!</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">Personal Information</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Update your details</h5>
+                            <p class="card-text">Ensure your personal information is up to date.</p>
+                            <a href="{% url 'personal_info' %}" class="btn btn-light">Go to Form</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Marks Entry</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Enter your academic marks</h5>
+                            <p class="card-text">Submit your marks for various subjects.</p>
+                            <a href="{% url 'marks_entry' %}" class="btn btn-light">Go to Form</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-info mb-3">
+                        <div class="card-header">Offer Letter</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Generate your offer letter</h5>
+                            <p class="card-text">Download your official offer letter.</p>
+                            <a href="{% url 'generate_offer_letter' %}" class="btn btn-light">Generate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- You can add more sections here, e.g., recent activities, notifications -->
+
+        </main>
+    </div>
+</div>
+{% endblock %}

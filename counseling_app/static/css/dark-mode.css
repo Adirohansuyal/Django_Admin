@@ -1,0 +1,57 @@
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode .navbar {
+    background-color: #1f1f1f !important;
+    color: #ffffff;
+}
+
+.dark-mode .navbar-brand, .dark-mode .nav-link {
+    color: #ffffff !important;
+}
+
+.dark-mode .card {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.dark-mode .list-group-item {
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border-color: #444444;
+}
+
+.dark-mode .form-control {
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border-color: #444444;
+}
+
+.dark-mode .form-control::placeholder {
+    color: #bbbbbb;
+}
+
+.dark-mode .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.dark-mode .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.dark-mode .btn-info {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+.login-page {
+    background-color: #f8f9fa;
+}
+
+.dark-mode .login-page {
+    background-color: #121212;
+}

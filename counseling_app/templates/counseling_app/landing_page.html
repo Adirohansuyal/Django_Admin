@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+{% block extra_css %}
+<link href="{% static 'css/landing_page.css' %}" rel="stylesheet">
+{% endblock %}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4"><b>Welcome to the Birla Student Counseling System</b></h1>
+        <p class="lead">Developed and Managed by Aditya Suyal</p>
+        <hr class="my-4">
+        <p>Please select your role to continue:</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <a href="{% url 'admin_login' %}" class="btn btn-primary btn-lg me-md-2">Admin Login</a>
+            <a href="{% url 'admin_signup' %}" class="btn btn-secondary btn-lg">Admin Signup</a>
+            <a href="/accounts/login/" class="btn btn-info btn-lg">Student Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
