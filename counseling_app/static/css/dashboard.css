@@ -53,5 +53,10 @@
  */
 
 [role="main"] {
-  padding-top: 48px; /* Space for fixed navbar */
+  padding-top: 70px; /* Adjusted space for fixed navbar */
+}
+
+/* Card enhancements */
+.card {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
