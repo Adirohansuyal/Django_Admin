@@ -88,7 +88,11 @@ def admin_login(request):
 
 @login_required
 def admin_dashboard(request):
-    return render(request, 'counseling_app/admin_dashboard.html')
+    user_role = request.user.role  # Get the role of the logged-in user
+    context = {
+        'user_role': user_role,
+    }
+    return render(request, 'counseling_app/admin_dashboard.html', context)
 
 def landing_page(request):
     return render(request, 'counseling_app/landing_page.html')

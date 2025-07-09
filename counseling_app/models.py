@@ -61,6 +61,18 @@ class AdminUser(AbstractUser):
     email = models.EmailField(unique=True)
     is_admin = models.BooleanField(default=True)
 
+    # Define roles
+    ROLE_CHOICES = [
+        ('counselor', 'Counselor'),
+        ('registrar', 'Registrar'),
+        ('super_admin', 'Super Admin'),
+    ]
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='counselor', # Default role
+    )
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
