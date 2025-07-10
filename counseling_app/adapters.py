@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import login
-from .models import AdminUser
+from .models import AdminUser  # Ensure AdminUser is imported
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):

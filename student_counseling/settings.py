@@ -58,6 +58,7 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 3
 LOGIN_REDIRECT_URL = '/admin_dashboard/'  # Redirect to admin dashboard after login
 LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
+LOGIN_URL = '/admin_login/'  # Redirect to the admin login page for staff-required views
 
 # Allauth settings
 ACCOUNT_EMAIL_REQUIRED = True

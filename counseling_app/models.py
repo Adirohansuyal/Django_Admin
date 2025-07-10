@@ -34,7 +34,7 @@ class Payment(models.Model):
     is_verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username} - {'Verified' if self.is_verified else 'Pending'}"
+        return f"{self.user.username} - {'Verified' if this.is_verified else 'Pending'}"
 
 class AdminUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -80,3 +80,18 @@ class AdminUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+class StudentInfo(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    address = models.TextField()
+    high_school_math = models.FloatField()
+    high_school_science = models.FloatField()
+    high_school_english = models.FloatField()
+    high_school_hindi = models.FloatField()
+    plus_two_physics = models.FloatField()
+    plus_two_chemistry = models.FloatField()
+    plus_two_math = models.FloatField()
+
+    def __str__(self):
+        return self.name

@@ -15,6 +15,7 @@ urlpatterns = [
     path('admin_signup/', views.admin_signup, name='admin_signup'),
     path('admin_login/', views.admin_login, name='admin_login'),
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
-   
-
+    path('manage_admins/', views.manage_admins, name='manage_admins'),
+    path('monitor_admins/', views.monitor_admins, name='monitor_admins'),
+    path('submit_student_info/', views.submit_student_info, name='submit_student_info'),
 ]

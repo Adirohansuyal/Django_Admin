@@ -5,9 +5,14 @@ from io import BytesIO
 from xhtml2pdf import pisa
 from .forms import PersonalInfoForm, MarksEntryForm
 from django.contrib.auth.decorators import login_required
-from .models import MarksEntry
+from .models import MarksEntry, AdminUser  # Add AdminUser to the imports
 from django.contrib.auth import login, authenticate, get_backends
 from .forms import AdminSignupForm, AdminLoginForm
+from django.core.mail import send_mail
+from django.conf import settings  # Import settings
+import random
+from django.contrib.admin.views.decorators import staff_member_required
+from .forms import StudentInfoForm
 
 # Remove or update the home view
 # def home(request):
@@ -73,18 +78,63 @@ def admin_signup(request):
 
 def admin_login(request):
     if request.method == 'POST':
+        if 'otp' in request.POST:  # Step 2: Verify OTP
+            entered_otp = request.POST.get('otp')
+            if entered_otp == request.session.get('admin_otp'):
+                user_id = request.session.get('admin_user_id')
+                user = AdminUser.objects.get(id=user_id)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')  # Specify backend
+                del request.session['admin_otp']  # Clear OTP from session
+                del request.session['admin_user_id']  # Clear user ID from session
+                return redirect('admin_dashboard')
+            else:
+                return render(request, 'counseling_app/admin_login.html', {
+                    'error_message': 'Invalid OTP. Please try again.',
+                    'otp_step': True
+                })
+
         form = AdminLoginForm(data=request.POST)
-        if form.is_valid():
+        if form.is_valid():  # Step 1: Authenticate user
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
-            if user is not None and user.is_admin:
-                login(request, user)
-                return redirect('admin_dashboard')
+            if user is not None:
+                if hasattr(user, 'is_admin') and user.is_admin:  # Ensure user is an admin
+                    # Generate a 4-digit OTP
+                    otp = str(random.randint(1000, 9999))
+                    request.session['admin_otp'] = otp
+                    request.session['admin_user_id'] = user.id
+
+                    # Send OTP to the user's email
+                    send_mail(
+                        'Your Admin Login OTP',
+                        f'Your OTP for admin login is: {otp}',
+                        settings.DEFAULT_FROM_EMAIL,
+                        [user.email],
+                        fail_silently=False,
+                    )
+
+                    return render(request, 'counseling_app/admin_login.html', {
+                        'otp_step': True,
+                        'message': 'An OTP has been sent to your email. Please enter it below.'
+                    })
+                else:
+                    return render(request, 'counseling_app/admin_login.html', {
+                        'form': form,
+                        'error_message': 'You are not authorized to log in as an admin.'
+                    })
+            else:
+                return render(request, 'counseling_app/admin_login.html', {
+                    'form': form,
+                    'error_message': 'Invalid username or password. Please try again.'
+                })
     else:
         form = AdminLoginForm()
     error_message = request.GET.get('error')
-    return render(request, 'counseling_app/admin_login.html', {'form': form, 'error_message': error_message})
+    return render(request, 'counseling_app/admin_login.html', {
+        'form': form,
+        'error_message': error_message
+    })
 
 @login_required
 def admin_dashboard(request):
@@ -94,5 +144,34 @@ def admin_dashboard(request):
     }
     return render(request, 'counseling_app/admin_dashboard.html', context)
 
+@staff_member_required
+def manage_admins(request):
+    admins = AdminUser.objects.all()  # Fetch all registered admins
+    if request.method == 'POST':
+        admin_id = request.POST.get('admin_id')
+        AdminUser.objects.filter(id=admin_id).delete()  # Delete the selected admin
+        return redirect('manage_admins')  # Refresh the page after deletion
+    return render(request, 'counseling_app/manage_admins.html', {'admins': admins})
+
+@staff_member_required
+def monitor_admins(request):
+    admins = AdminUser.objects.all()  # Fetch all registered admins
+    admin_count = admins.count()  # Count the number of admins
+    return render(request, 'counseling_app/monitor_admins.html', {
+        'admins': admins,
+        'admin_count': admin_count,
+    })
+
 def landing_page(request):
     return render(request, 'counseling_app/landing_page.html')
+
+@login_required
+def submit_student_info(request):
+    if request.method == 'POST':
+        form = StudentInfoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin_dashboard')  # Redirect to the admin dashboard after submission
+    else:
+        form = StudentInfoForm()
+    return render(request, 'counseling_app/submit_student_info.html', {'form': form})

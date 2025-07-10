@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Monitor Admins{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Monitor Registered Admins</h2>
+    <p class="text-center">Total Registered Admins: <strong>{{ admin_count }}</strong></p>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+                <tr>
+                    <td>{{ admin.id }}</td>
+                    <td>{{ admin.email }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -13,44 +13,63 @@
     <div class="col-md-6">
         <div class="card mt-5">
             <div class="card-body">
-                <h2 class="card-title text-center">Admin Login</h2>
-                <p class="text-center text-muted">Please enter your credentials to log in.</p>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="id_username" class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" id="id_username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_password" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" id="id_password" required>
-                        <small class="text-muted"><a href="{% url 'account_reset_password' %}">Forgot Password?</a></small>
-                    </div>
-                    {% if form.errors %}
-                        <div class="alert alert-danger">
-                            Your username and password didn't match. Please try again.
+                {% if otp_step %}
+                    <h2 class="card-title text-center">Enter OTP</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="otp" class="form-label">OTP</label>
+                            <input type="text" id="otp" name="otp" class="form-control" required>
                         </div>
-                    {% endif %}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Verify OTP</button>
+                        </div>
+                    </form>
                     {% if error_message %}
                         <div class="alert alert-danger">
-                            {% if error_message == 'unauthorized_email' %}
-                                Your email is not authorized to log in as an admin.
-                            {% else %}
-                                {{ error_message }}
-                            {% endif %}
+                            {{ error_message }}
                         </div>
                     {% endif %}
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                {% else %}
+                    <h2 class="card-title text-center">Admin Login</h2>
+                    <p class="text-center text-muted">Please enter your credentials to log in.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" id="id_username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="id_password" required>
+                            <small class="text-muted"><a href="{% url 'account_reset_password' %}">Forgot Password?</a></small>
+                        </div>
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                Your username and password didn't match. Please try again.
+                            </div>
+                        {% endif %}
+                        {% if error_message %}
+                            <div class="alert alert-danger">
+                                {% if error_message == 'unauthorized_email' %}
+                                    Your email is not authorized to log in as an admin.
+                                {% else %}
+                                    {{ error_message }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <h5 class="mb-3">Or</h5>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-outline-primary">
+                            <i class="fab fa-google me-2"></i> Login with Google
+                        </a>
                     </div>
-                </form>
-                <hr>
-                <div class="text-center">
-                    <h5 class="mb-3">Or</h5>
-                    <a href="{% provider_login_url 'google' %}" class="btn btn-outline-primary">
-                        <i class="fab fa-google me-2"></i> Login with Google
-                    </a>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
